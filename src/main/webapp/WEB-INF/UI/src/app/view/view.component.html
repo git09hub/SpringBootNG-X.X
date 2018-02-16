@@ -1,0 +1,130 @@
+<p>
+  view works!<!--  - + +  {{usersList | json}}  -->
+</p>
+	<div style="padding: 20px;">
+
+		<div style="text-align: center;padding: 20px;">
+			<br/><br/>
+			Search
+			<select name="sCriteria"  [(ngModel)]="sCriteria">
+					<option>Select</option>
+					<option value="firstName">First Name</option>
+					<option value="lastName">Last Name</option>
+					<option value="email">E-Mail</option>
+					<option value="address">Address</option>
+			</select>
+
+			<input type="text" [(ngModel)]="filterText" placeholder="search" />
+			<hr/>
+			<br/>
+			Order By
+			<select name="sOrder" [(ngModel)]="sOrder">
+				<option>Select</option>
+				<option value="firstName">First Name</option>
+				<option value="lastName">Last Name</option>
+				<option value="email">E-Mail</option>
+				<option value="address">Address</option>
+			</select>
+			<br/>
+			<br/>
+		</div>
+	  	<table class="TableStyle" style="padding: 35px" border=2 align="center">
+	            <tr><th colspan=5 style="text-align: center;padding: 10px;">Users List</th></tr>
+	            <tr  class="RowHeaderStyle">
+	                <th ng-click="orderByMe('firstName')">Firstname</th>
+	                <th>Lastname</th>
+	                <th ng-click="orderByMe('email')">E-mail</th>
+	                <th ng-click="orderByMe('address')">Address</th>
+	                <th>Update</th>
+	            </tr>
+	            <tr *ngFor="let user of usersList | filter: filterText: sCriteria | orderBy: sOrder">	
+	                <td>{{user.firstName}}</td>
+	                <td>{{user.lastName}}</td>
+	                <td>{{user.email}}</td>
+	                <td>{{user.address}}</td>
+	                <td>
+	                	<!-- <button class="btn btn-mini btn-success" (click)="editUser(user)"> -->
+	                <button class="btn btn-mini btn-success" data-toggle="modal" data-target="#editModal" (click)="editUser(user)">Edit</button>
+	                </td>
+	            </tr>
+	    </table>
+
+	    <!-- model start -->
+	    <div id="editModal" class="modal fade" role="dialog" >
+		  <div class="modal-dialog">
+
+		    <div class="modal-content" *ngIf="selectedUser">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">
+		        	<p align="center">
+		        		<span class="glyphicon glyphicon-pencil"></span>
+		        		&nbsp;&nbsp;Edit User
+		        	</p>
+		        </h4>
+		      </div>
+		      <div class="modal-body" id="modalBody">
+		        <!-- <p>{{selectedUser | json}}</p> -->
+							<div class="main-login main-center">
+								<form class="form-horizontal" method="post" action="">
+									
+									<div class="form-group">
+										<label for="firstName" class="cols-sm-2 control-label">First Name</label>
+										<div class="cols-sm-10">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+												<input type="text" class="form-control" name="firstName" id="firstName" [(ngModel)]="selectedUser.firstName" placeholder="Enter your First Name"/>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="lastName" class="cols-sm-2 control-label">Last Name</label>
+										<div class="cols-sm-10">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+												<input type="text" [(ngModel)]="selectedUser.lastName" class="form-control" name="lastName" id="lastName"  placeholder="Enter your Last Name"/>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="email" class="cols-sm-2 control-label">Email</label>
+										<div class="cols-sm-10">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-users fa" aria-hidden="true"></i></span>
+												<input type="text" class="form-control" name="email" id="email" [(ngModel)]="selectedUser.email" placeholder="Enter your Email Id"/>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="address" class="cols-sm-2 control-label">Address</label>
+										<div class="cols-sm-10">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+												<input type="text" class="form-control" name="address" id="address" [(ngModel)]="selectedUser.address" placeholder="Enter your Address"/>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group ">
+										<button type="button" class="btn btn-primary btn-sm btn-block login-button" (click)="updateUser(selectedUser)">Update</button>
+										<button type="button" class="btn btn-warning btn-sm btn-block" data-dismiss="modal">Cancel</button>
+									</div>
+
+								</form>
+							</div>
+		
+		      </div>
+		      <div class="modal-footer">
+		        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+		      </div>
+		    </div>
+
+		  </div>
+		</div>
+		<!-- model end -->
+
+
+	</div>
